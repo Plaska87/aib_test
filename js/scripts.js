@@ -1,15 +1,83 @@
-// About section carousel functionality
+// Modern Hero slideshow functionality
+let currentHeroSlide = 0;
+let isHeroTransitioning = false;
+let heroSlides = [];
+let totalHeroSlides = 0;
+
+function showHeroSlide(index) {
+  if (isHeroTransitioning || totalHeroSlides === 0) return;
+
+  isHeroTransitioning = true;
+  const currentActiveHero = document.querySelector(".hero-slide.active");
+  const nextHeroSlide = heroSlides[index];
+
+  if (
+    currentActiveHero &&
+    nextHeroSlide &&
+    currentActiveHero !== nextHeroSlide
+  ) {
+    // Fade out current slide
+    currentActiveHero.classList.remove("active");
+
+    // Fade in next slide
+    setTimeout(() => {
+      nextHeroSlide.classList.add("active");
+      isHeroTransitioning = false;
+    }, 100);
+  } else if (nextHeroSlide && !currentActiveHero) {
+    // First slide
+    nextHeroSlide.classList.add("active");
+    isHeroTransitioning = false;
+  } else {
+    isHeroTransitioning = false;
+  }
+}
+
+function nextHeroSlide() {
+  currentHeroSlide = (currentHeroSlide + 1) % totalHeroSlides;
+  showHeroSlide(currentHeroSlide);
+}
+
+// Modern About section carousel functionality
 let currentSlide = 0;
+let isTransitioning = false;
 const slides = document.querySelectorAll(".about-slide");
 const totalSlides = slides.length;
 
 function showSlide(index) {
-  // Remove active class from all slides
-  slides.forEach((slide) => slide.classList.remove("active"));
+  // Prevent multiple transitions at once
+  if (isTransitioning) return;
 
-  // Add active class to current slide
-  if (slides[index]) {
-    slides[index].classList.add("active");
+  isTransitioning = true;
+  const currentActiveSlide = document.querySelector(".about-slide.active");
+  const nextSlide = slides[index];
+
+  if (currentActiveSlide && nextSlide && currentActiveSlide !== nextSlide) {
+    // Start fade out of current slide
+    currentActiveSlide.classList.add("fade-out");
+    currentActiveSlide.classList.remove("active");
+
+    // After fade out completes, show new slide
+    setTimeout(() => {
+      // Remove fade-out class and reset position
+      currentActiveSlide.classList.remove("fade-out");
+
+      // Show new slide
+      nextSlide.classList.add("active");
+
+      // Reset transition flag after new slide is fully visible
+      setTimeout(() => {
+        isTransitioning = false;
+      }, 600); // Match the CSS transition duration
+    }, 300); // Half the fade-out duration
+  } else if (nextSlide && !currentActiveSlide) {
+    // First slide or no current slide
+    nextSlide.classList.add("active");
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 600);
+  } else {
+    isTransitioning = false;
   }
 }
 
@@ -18,12 +86,119 @@ function nextSlide() {
   showSlide(currentSlide);
 }
 
-// Start automatic carousel when page loads
+// Modern scroll-based navbar effects
+function handleNavbarScroll() {
+  const navbar = document.querySelector(".navbar");
+  if (window.scrollY > 100) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+}
+
+// Modern intersection observer for animations
+function setupScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("fade-in");
+
+        // Add staggered animation for product cards
+        if (
+          entry.target.classList.contains("product-card") ||
+          entry.target.classList.contains("product-card-horizontal")
+        ) {
+          const cards = document.querySelectorAll(
+            ".product-card, .product-card-horizontal"
+          );
+          cards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add("slide-up");
+            }, index * 100);
+          });
+        }
+      }
+    });
+  }, observerOptions);
+
+  // Observe elements for animation
+  document
+    .querySelectorAll(
+      ".product-card, .product-card-horizontal, .about-slide, .feature-card"
+    )
+    .forEach((el) => {
+      observer.observe(el);
+    });
+}
+
+// Enhanced smooth scrolling with easing
+function smoothScrollTo(target, duration = 1000) {
+  const navbar = document.querySelector(".navbar");
+  const navbarHeight = navbar ? navbar.offsetHeight : 120;
+  const targetPosition = target.offsetTop - navbarHeight - 20;
+  const startPosition = window.pageYOffset;
+  const distance = targetPosition - startPosition;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) requestAnimationFrame(animation);
+  }
+
+  function easeInOutQuad(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t + b;
+    t--;
+    return (-c / 2) * (t * (t - 2) - 1) + b;
+  }
+
+  requestAnimationFrame(animation);
+}
+
+// Modern page initialization
 document.addEventListener("DOMContentLoaded", function () {
-  // Set interval for automatic sliding (5 seconds)
+  // Store original products content for restoration
+  storeOriginalContent();
+
+  // Initialize hero slideshow
+  heroSlides = document.querySelectorAll(".hero-slide");
+  totalHeroSlides = heroSlides.length;
+
+  if (totalHeroSlides > 0) {
+    // Ensure first hero slide is active
+    if (!document.querySelector(".hero-slide.active")) {
+      heroSlides[0].classList.add("active");
+    }
+    // Set interval for automatic hero sliding (5 seconds)
+    setInterval(nextHeroSlide, 5000);
+  }
+
+  // Initialize first about slide if no slide is active
+  if (slides.length > 0 && !document.querySelector(".about-slide.active")) {
+    slides[0].classList.add("active");
+  }
+
+  // Set interval for automatic about sliding (10 seconds)
   setInterval(nextSlide, 10000);
 
-  // Add smooth scrolling to all anchor links
+  // Setup scroll animations
+  setupScrollAnimations();
+
+  // Add scroll listener for navbar effects
+  window.addEventListener("scroll", handleNavbarScroll);
+
+  // Initialize horizontal product scrolling
+  initializeProductScrolling();
+
+  // Enhanced smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       const href = this.getAttribute("href");
@@ -37,12 +212,29 @@ document.addEventListener("DOMContentLoaded", function () {
       const target = document.querySelector(href);
 
       if (target) {
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        smoothScrollTo(target);
       }
     });
+  });
+
+  // Add modern hover effects to buttons
+  document.querySelectorAll(".btn").forEach((btn) => {
+    btn.addEventListener("mouseenter", function () {
+      this.style.transform = "translateY(-3px)";
+    });
+
+    btn.addEventListener("mouseleave", function () {
+      this.style.transform = "translateY(0)";
+    });
+  });
+
+  // Add parallax effect to hero section
+  window.addEventListener("scroll", () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector(".hero-section");
+    if (hero) {
+      hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
   });
 });
 
@@ -93,11 +285,26 @@ async function showProductPage(productType, event) {
       `;
     }
 
-    // Scroll to the products section smoothly
-    productsSection.scrollIntoView({
+    // Scroll to the products section smoothly with proper offset
+    const navbar = document.querySelector(".navbar");
+    const navbarHeight = navbar ? navbar.offsetHeight : 120;
+    const targetPosition = productsSection.offsetTop - navbarHeight - 20; // Extra 20px padding
+
+    window.scrollTo({
+      top: targetPosition,
       behavior: "smooth",
-      block: "start",
     });
+  }
+}
+
+// Store original products content when page loads
+let originalProductsContent = null;
+
+// Function to store original content on page load
+function storeOriginalContent() {
+  const productsSection = document.querySelector(".py-5.bg-light");
+  if (productsSection && !originalProductsContent) {
+    originalProductsContent = productsSection.innerHTML;
   }
 }
 
@@ -105,188 +312,87 @@ async function showProductPage(productType, event) {
 function restoreProducts() {
   const productsSection = document.querySelector(".py-5.bg-light");
 
-  if (productsSection) {
-    // Restore modern products content
-    productsSection.innerHTML = `
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2 class="display-5 fw-bold mb-3">Nasza Oferta</h2>
-          <p class="lead text-light">Kompleksowe rozwiązania dla budownictwa od ponad 30 lat</p>
-        </div>
-
-        <!-- Main Products Grid -->
-        <div class="row g-4 mb-5">
-          <!-- Uszczelki -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img src="images/product1.jpg" class="img-fluid h-100 object-cover rounded-start" alt="Uszczelki TPE">
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">TPE</div>
-                    <h4 class="card-title text-primary mb-3">Uszczelki</h4>
-                    <p class="card-text text-light mb-3">
-                      Ponad 100 typów uszczelek wykonanych ze specjalnie opracowanych materiałów: TPS, TPA, TPG.
-                      Nowoczesne termoplastyczne elastomery (TPE) wypierają wulkanizowaną gumę (EPDM).
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Okna drewniane</span>
-                      <span class="feature-tag">Drzwi</span>
-                      <span class="feature-tag">Systemy PVC</span>
-                      <span class="feature-tag">Aluminium</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted">Zakres pracy: -45°C do +120°C</small>
-                        <a href="#" onclick="showProductPage('uszczelki', event)" class="btn btn-primary btn-sm">
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Butyl -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img src="images/product2.jpg" class="img-fluid h-100 object-cover rounded-start" alt="Taśmy Butylowe">
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">IIR/PIB</div>
-                    <h4 class="card-title text-primary mb-3">Butyl</h4>
-                    <p class="card-text text-light mb-3">
-                      Wstęgi, sznury, beczki i laminaty butylowe. Wysoka paroszczelność, doskonałe przyleganie,
-                      elastyczność przez lata, tłumienie hałasu i odporność na grzyby.
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Dekarstwo</span>
-                      <span class="feature-tag">Budownictwo</span>
-                      <span class="feature-tag">Motoryzacja</span>
-                      <span class="feature-tag">Wygłuszanie</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted">Maks. szerokość: 600mm</small>
-                        <a href="#" onclick="showProductPage('butyle', event)" class="btn btn-primary btn-sm">
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Profile -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img src="images/product3.jpg" class="img-fluid h-100 object-cover rounded-start" alt="Profile PVC">
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">PVC</div>
-                    <h4 class="card-title text-primary mb-3">Profile</h4>
-                    <p class="card-text text-light mb-3">
-                      Profile do drzwi wewnętrznych i zewnętrznych, bram garażowych, okien dachowych.
-                      Materiały odporne na starzenie oraz środki myjące i konserwujące.
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Drzwi zewnętrzne</span>
-                      <span class="feature-tag">Bramy garażowe</span>
-                      <span class="feature-tag">Okna dachowe</span>
-                      <span class="feature-tag">Zatrzask</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted">Folie ozdobne dostępne</small>
-                        <a href="#" onclick="showProductPage('profile', event)" class="btn btn-primary btn-sm">
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Integra System -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img src="images/product4.jpg" class="img-fluid h-100 object-cover rounded-start" alt="Integra System">
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">SYSTEM</div>
-                    <h4 class="card-title text-primary mb-3">Integra System</h4>
-                    <p class="card-text text-light mb-3">
-                      Nowoczesny system uszczelnień okiennych. Minimalizuje mostki termiczne,
-                      chroni przed przepływem powietrza i zawilgoceniem.
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Integra Inside</span>
-                      <span class="feature-tag">Integra Outside</span>
-                      <span class="feature-tag">Integra Vario</span>
-                      <span class="feature-tag">Finger Lift</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted">Szczelniej wewnątrz niż na zewnątrz</small>
-                        <a href="#" onclick="showProductPage('integra', event)" class="btn btn-primary btn-sm">
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New Product - Integra Simplex -->
-        <div class="row">
-          <div class="col-12">
-            <div class="new-product-banner">
-              <div class="row align-items-center">
-                <div class="col-md-8">
-                  <div class="new-badge">NOWOŚĆ</div>
-                  <h3 class="text-white mb-3">Integra Simplex</h3>
-                  <p class="text-light mb-3">
-                    Eliminuje mostki termiczne, lepsza izolacja termiczna, wodoszczelność i większa stabilność.
-                    Współczynnik przenikalności cieplnej poprawiony z 0,3 W/mK do ok. 0,15 W/mK!
-                  </p>
-                  <div class="d-flex flex-wrap gap-2 mb-3">
-                    <span class="spec-tag">Pianka poliuretanowa</span>
-                    <span class="spec-tag">Drobiny aluminium</span>
-                    <span class="spec-tag">0,076 W/mk</span>
-                    <span class="spec-tag">Klasa B2</span>
-                  </div>
-                </div>
-                <div class="col-md-4 text-center">
-                  <div class="coming-soon-badge">
-                    <i class="fas fa-rocket fa-2x mb-2"></i>
-                    <div>Wkrótce w ofercie</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+  if (productsSection && originalProductsContent) {
+    productsSection.innerHTML = originalProductsContent;
+    // Re-initialize product scrolling after restoration
+    setTimeout(() => {
+      initializeProductScrolling();
+    }, 100);
   }
+}
+
+// Initialize horizontal product scrolling functionality
+function initializeProductScrolling() {
+  const scrollWrapper = document.querySelector(".products-scroll-wrapper");
+  const scrollHint = document.querySelector(".scroll-hint");
+
+  if (!scrollWrapper) return;
+
+  // Add smooth scrolling behavior for mouse wheel
+  scrollWrapper.addEventListener("wheel", (e) => {
+    if (e.deltaY !== 0) {
+      e.preventDefault();
+      scrollWrapper.scrollLeft += e.deltaY;
+    }
+  });
+
+  // Add touch/swipe support for mobile
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  scrollWrapper.addEventListener("mousedown", (e) => {
+    isDown = true;
+    scrollWrapper.classList.add("active");
+    startX = e.pageX - scrollWrapper.offsetLeft;
+    scrollLeft = scrollWrapper.scrollLeft;
+  });
+
+  scrollWrapper.addEventListener("mouseleave", () => {
+    isDown = false;
+    scrollWrapper.classList.remove("active");
+  });
+
+  scrollWrapper.addEventListener("mouseup", () => {
+    isDown = false;
+    scrollWrapper.classList.remove("active");
+  });
+
+  scrollWrapper.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - scrollWrapper.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollWrapper.scrollLeft = scrollLeft - walk;
+  });
+
+  // Hide scroll hint after user interacts
+  if (scrollHint) {
+    const hideScrollHint = () => {
+      scrollHint.style.opacity = "0";
+      setTimeout(() => {
+        scrollHint.style.display = "none";
+      }, 300);
+    };
+
+    scrollWrapper.addEventListener("scroll", hideScrollHint, { once: true });
+    scrollWrapper.addEventListener("touchstart", hideScrollHint, {
+      once: true,
+    });
+    scrollWrapper.addEventListener("mousedown", hideScrollHint, { once: true });
+  }
+
+  // Add keyboard navigation
+  scrollWrapper.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      scrollWrapper.scrollLeft -= 200;
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      scrollWrapper.scrollLeft += 200;
+    }
+  });
+
+  // Make scrollable container focusable
+  scrollWrapper.setAttribute("tabindex", "0");
 }

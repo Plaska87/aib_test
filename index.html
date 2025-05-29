@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div class="container">
         <a class="navbar-brand" href="#">
-          <img src="images/logo.png" alt="AIB Logo" height="40" />
+          <img src="images/logo.png" alt="AIB Logo" height="80" />
         </a>
         <button
           class="navbar-toggler"
@@ -43,7 +43,7 @@
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
-                href="#"
+                href="#products"
                 id="navbarDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
@@ -93,7 +93,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Aktualności</a>
+              <a class="nav-link" href="#news">Aktualności</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#contact">Kontakt</a>
@@ -106,14 +106,25 @@
     <!-- Hero Section -->
     <section
       class="hero-section text-white text-center d-flex align-items-center"
-      style="
-        background-image: url('images/hero.jpg');
-        height: 80vh;
-        background-size: cover;
-        background-position: center;
-      "
     >
-      <div class="container">
+      <!-- Hero Background Images -->
+      <div class="hero-background">
+        <div
+          class="hero-slide active"
+          style="background-image: url('images/hero1.jpg')"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url('images/her02.jpg')"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url('images/hero3.jpg')"
+        ></div>
+      </div>
+
+      <!-- Hero Content -->
+      <div class="container hero-content">
         <h1 class="display-4 fw-bold">
           Innowacyjne Rozwiązania dla Budownictwa
         </h1>
@@ -121,7 +132,9 @@
           Ponad 30 lat doświadczenia w produkcji materiałów izolacyjnych i
           uszczelnień.
         </p>
-        <a href="#" class="btn btn-primary btn-lg mt-3">Dowiedz się więcej</a>
+        <a href="#about" class="btn btn-primary btn-lg mt-3 hover-lift"
+          >Dowiedz się więcej</a
+        >
       </div>
     </section>
 
@@ -208,204 +221,229 @@
       </div>
     </section>
 
+    <!-- News Section -->
+    <section id="news" class="py-5 bg-dark">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="news-header-container">
+            <div class="news-icon-wrapper">
+              <i class="fas fa-newspaper news-icon"></i>
+            </div>
+            <h2 class="news-title">Aktualności</h2>
+            <div class="news-subtitle-wrapper">
+              <div class="news-line"></div>
+              <p class="news-subtitle">Najnowsze informacje z naszej firmy</p>
+              <div class="news-line"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <div class="work-in-progress-card p-5 rounded">
+              <div class="mb-4">
+                <i class="fas fa-tools fa-4x text-primary mb-3"></i>
+                <h3 class="text-white mb-3">Sekcja w przygotowaniu</h3>
+                <p class="text-light mb-4">
+                  Pracujemy nad nową sekcją aktualności, gdzie będziemy
+                  publikować najważniejsze informacje o naszej firmie, nowych
+                  produktach i wydarzeniach branżowych.
+                </p>
+                <div class="progress mb-3" style="height: 8px">
+                  <div
+                    class="progress-bar bg-primary"
+                    role="progressbar"
+                    style="width: 75%"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <small class="text-muted">Postęp prac: 75%</small>
+              </div>
+
+              <div class="coming-features mt-4">
+                <h5 class="text-white mb-3">Planowane funkcje:</h5>
+                <div class="row text-start">
+                  <div class="col-md-6">
+                    <ul class="list-unstyled text-light">
+                      <li class="mb-2">
+                        <i class="fas fa-check text-primary me-2"></i
+                        >Aktualności firmowe
+                      </li>
+                      <li class="mb-2">
+                        <i class="fas fa-check text-primary me-2"></i>Nowości
+                        produktowe
+                      </li>
+                      <li class="mb-2">
+                        <i class="fas fa-check text-primary me-2"></i>Wydarzenia
+                        branżowe
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <ul class="list-unstyled text-light">
+                      <li class="mb-2">
+                        <i class="fas fa-check text-primary me-2"></i>Artykuły
+                        techniczne
+                      </li>
+                      <li class="mb-2">
+                        <i class="fas fa-check text-primary me-2"></i>Galeria
+                        zdjęć
+                      </li>
+                      <li class="mb-2">
+                        <i class="fas fa-check text-primary me-2"></i>Newsletter
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Products Section -->
     <section id="products" class="py-5 bg-light">
       <div class="container">
         <div class="text-center mb-5">
-          <h2 class="display-5 fw-bold mb-3">Nasza Oferta</h2>
+          <h2 class="display-5 fw-bold mb-3 text-gradient">Nasza Oferta</h2>
           <p class="lead text-light">
             Kompleksowe rozwiązania dla budownictwa od ponad 30 lat
           </p>
         </div>
 
-        <!-- Main Products Grid -->
-        <div class="row g-4 mb-5">
-          <!-- Uszczelki -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img
-                    src="images/product1.jpg"
-                    class="img-fluid h-100 object-cover rounded-start"
-                    alt="Uszczelki TPE"
-                  />
+        <!-- Main Products Horizontal Scroll Container -->
+        <div class="products-scroll-container mb-5">
+          <div class="products-scroll-wrapper">
+            <!-- Uszczelki -->
+            <div class="product-card-horizontal">
+              <div class="product-content-section">
+                <div class="product-badge">TPE</div>
+                <h4 class="card-title text-primary mb-3">Uszczelki</h4>
+                <p class="card-text text-light mb-3">
+                  Ponad 100 typów uszczelek wykonanych ze specjalnie
+                  opracowanych materiałów: TPS, TPA, TPG. Nowoczesne
+                  termoplastyczne elastomery (TPE) wypierają wulkanizowaną gumę
+                  (EPDM).
+                </p>
+                <div class="product-features mb-3">
+                  <span class="feature-tag">Okna drewniane</span>
+                  <span class="feature-tag">Drzwi</span>
+                  <span class="feature-tag">Systemy PVC</span>
+                  <span class="feature-tag">Aluminium</span>
                 </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">TPE</div>
-                    <h4 class="card-title text-primary mb-3">Uszczelki</h4>
-                    <p class="card-text text-light mb-3">
-                      Ponad 100 typów uszczelek wykonanych ze specjalnie
-                      opracowanych materiałów: TPS, TPA, TPG. Nowoczesne
-                      termoplastyczne elastomery (TPE) wypierają wulkanizowaną
-                      gumę (EPDM).
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Okna drewniane</span>
-                      <span class="feature-tag">Drzwi</span>
-                      <span class="feature-tag">Systemy PVC</span>
-                      <span class="feature-tag">Aluminium</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <small class="text-muted"
-                          >Zakres pracy: -45°C do +120°C</small
-                        >
-                        <a
-                          href="#"
-                          onclick="showProductPage('uszczelki', event)"
-                          class="btn btn-primary btn-sm"
-                        >
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                <div class="product-footer">
+                  <small class="text-muted"
+                    >Zakres pracy: -45°C do +120°C</small
+                  >
+                  <a
+                    href="#"
+                    onclick="showProductPage('uszczelki', event)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Butyl -->
+            <div class="product-card-horizontal">
+              <div class="product-content-section">
+                <div class="product-badge">IIR/PIB</div>
+                <h4 class="card-title text-primary mb-3">Butyl</h4>
+                <p class="card-text text-light mb-3">
+                  Wstęgi, sznury, beczki i laminaty butylowe. Wysoka
+                  paroszczelność, doskonałe przyleganie, elastyczność przez
+                  lata, tłumienie hałasu i odporność na grzyby.
+                </p>
+                <div class="product-features mb-3">
+                  <span class="feature-tag">Dekarstwo</span>
+                  <span class="feature-tag">Budownictwo</span>
+                  <span class="feature-tag">Motoryzacja</span>
+                  <span class="feature-tag">Wygłuszanie</span>
+                </div>
+                <div class="product-footer">
+                  <small class="text-muted">Maks. szerokość: 600mm</small>
+                  <a
+                    href="#"
+                    onclick="showProductPage('butyle', event)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="product-card-horizontal">
+              <div class="product-content-section">
+                <div class="product-badge">PVC</div>
+                <h4 class="card-title text-primary mb-3">Profile</h4>
+                <p class="card-text text-light mb-3">
+                  Profile do drzwi wewnętrznych i zewnętrznych, bram garażowych,
+                  okien dachowych. Materiały odporne na starzenie oraz środki
+                  myjące i konserwujące.
+                </p>
+                <div class="product-features mb-3">
+                  <span class="feature-tag">Drzwi zewnętrzne</span>
+                  <span class="feature-tag">Bramy garażowe</span>
+                  <span class="feature-tag">Okna dachowe</span>
+                  <span class="feature-tag">Zatrzask</span>
+                </div>
+                <div class="product-footer">
+                  <small class="text-muted">Folie ozdobne dostępne</small>
+                  <a
+                    href="#"
+                    onclick="showProductPage('profile', event)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Integra System -->
+            <div class="product-card-horizontal">
+              <div class="product-content-section">
+                <div class="product-badge">SYSTEM</div>
+                <h4 class="card-title text-primary mb-3">Integra System</h4>
+                <p class="card-text text-light mb-3">
+                  Nowoczesny system uszczelnień okiennych. Minimalizuje mostki
+                  termiczne, chroni przed przepływem powietrza i zawilgoceniem.
+                </p>
+                <div class="product-features mb-3">
+                  <span class="feature-tag">Integra Inside</span>
+                  <span class="feature-tag">Integra Outside</span>
+                  <span class="feature-tag">Integra Vario</span>
+                  <span class="feature-tag">Finger Lift</span>
+                </div>
+                <div class="product-footer">
+                  <small class="text-muted"
+                    >Szczelniej wewnątrz niż na zewnątrz</small
+                  >
+                  <a
+                    href="#"
+                    onclick="showProductPage('integra', event)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Butyl -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img
-                    src="images/product2.jpg"
-                    class="img-fluid h-100 object-cover rounded-start"
-                    alt="Taśmy Butylowe"
-                  />
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">IIR/PIB</div>
-                    <h4 class="card-title text-primary mb-3">Butyl</h4>
-                    <p class="card-text text-light mb-3">
-                      Wstęgi, sznury, beczki i laminaty butylowe. Wysoka
-                      paroszczelność, doskonałe przyleganie, elastyczność przez
-                      lata, tłumienie hałasu i odporność na grzyby.
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Dekarstwo</span>
-                      <span class="feature-tag">Budownictwo</span>
-                      <span class="feature-tag">Motoryzacja</span>
-                      <span class="feature-tag">Wygłuszanie</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <small class="text-muted">Maks. szerokość: 600mm</small>
-                        <a
-                          href="#"
-                          onclick="showProductPage('butyle', event)"
-                          class="btn btn-primary btn-sm"
-                        >
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Profile -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img
-                    src="images/product3.jpg"
-                    class="img-fluid h-100 object-cover rounded-start"
-                    alt="Profile PVC"
-                  />
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">PVC</div>
-                    <h4 class="card-title text-primary mb-3">Profile</h4>
-                    <p class="card-text text-light mb-3">
-                      Profile do drzwi wewnętrznych i zewnętrznych, bram
-                      garażowych, okien dachowych. Materiały odporne na
-                      starzenie oraz środki myjące i konserwujące.
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Drzwi zewnętrzne</span>
-                      <span class="feature-tag">Bramy garażowe</span>
-                      <span class="feature-tag">Okna dachowe</span>
-                      <span class="feature-tag">Zatrzask</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <small class="text-muted">Folie ozdobne dostępne</small>
-                        <a
-                          href="#"
-                          onclick="showProductPage('profile', event)"
-                          class="btn btn-primary btn-sm"
-                        >
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Integra System -->
-          <div class="col-lg-6">
-            <div class="product-card h-100">
-              <div class="row g-0 h-100">
-                <div class="col-md-5">
-                  <img
-                    src="images/product4.jpg"
-                    class="img-fluid h-100 object-cover rounded-start"
-                    alt="Integra System"
-                  />
-                </div>
-                <div class="col-md-7">
-                  <div class="card-body h-100 d-flex flex-column">
-                    <div class="product-badge">SYSTEM</div>
-                    <h4 class="card-title text-primary mb-3">Integra System</h4>
-                    <p class="card-text text-light mb-3">
-                      Nowoczesny system uszczelnień okiennych. Minimalizuje
-                      mostki termiczne, chroni przed przepływem powietrza i
-                      zawilgoceniem.
-                    </p>
-                    <div class="product-features mb-3">
-                      <span class="feature-tag">Integra Inside</span>
-                      <span class="feature-tag">Integra Outside</span>
-                      <span class="feature-tag">Integra Vario</span>
-                      <span class="feature-tag">Finger Lift</span>
-                    </div>
-                    <div class="mt-auto">
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <small class="text-muted"
-                          >Szczelniej wewnątrz niż na zewnątrz</small
-                        >
-                        <a
-                          href="#"
-                          onclick="showProductPage('integra', event)"
-                          class="btn btn-primary btn-sm"
-                        >
-                          Zobacz więcej <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <!-- Scroll indicators -->
+          <div class="scroll-indicators">
+            <div class="scroll-hint">
+              <i class="fas fa-chevron-left"></i>
+              <span>Przewiń aby zobaczyć więcej produktów</span>
+              <i class="fas fa-chevron-right"></i>
             </div>
           </div>
         </div>
@@ -447,10 +485,10 @@
     <!-- Contact Section -->
     <section id="contact" class="py-5">
       <div class="container">
-        <h2 class="text-center mb-4">Skontaktuj się z nami</h2>
+        <h2 class="text-center mb-4 text-gradient">Skontaktuj się z nami</h2>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <form>
+            <form class="glass-effect p-4 rounded">
               <div class="mb-3">
                 <label for="name" class="form-label">Imię i nazwisko</label>
                 <input
@@ -478,7 +516,9 @@
                   placeholder="Wprowadź swoją wiadomość"
                 ></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">Wyślij</button>
+              <button type="submit" class="btn btn-primary hover-lift">
+                Wyślij
+              </button>
             </form>
           </div>
         </div>
