@@ -1,26 +1,37 @@
-/* Import modern fonts */
+/* ========================================
+   IMPORTS & CUSTOM PROPERTIES
+   ======================================== */
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
-/* CSS Custom Properties for modern theming */
 :root {
-  --primary-color: #0066ff;
-  --primary-dark: #0052cc;
-  --primary-light: #3385ff;
+  /* Colors */
+  --primary-color: #dc2626;
+  --primary-dark: #b91c1c;
+  --primary-light: #ef4444;
   --secondary-color: #00d4aa;
   --accent-color: #ff6b6b;
+
+  /* Backgrounds */
   --background-primary: #000000;
   --background-secondary: #0a0a0a;
   --background-tertiary: #1a1a1a;
   --surface-color: #1e1e1e;
   --surface-hover: #2a2a2a;
+
+  /* Text */
   --text-primary: #ffffff;
   --text-secondary: #b3b3b3;
   --text-muted: #666666;
+
+  /* Borders & Shadows */
   --border-color: #333333;
   --border-hover: #555555;
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-medium: rgba(0, 0, 0, 0.3);
   --shadow-heavy: rgba(0, 0, 0, 0.5);
+
+  /* Gradients */
   --gradient-primary: linear-gradient(
     135deg,
     var(--primary-color) 0%,
@@ -36,6 +47,8 @@
     var(--surface-color) 0%,
     var(--background-tertiary) 100%
   );
+
+  /* Effects & Spacing */
   --blur-amount: 10px;
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
@@ -46,7 +59,11 @@
   --transition-slow: 0.5s ease;
 }
 
-/* Modern scrollbar */
+/* ========================================
+   BASE STYLES & SCROLLBAR
+   ======================================== */
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -64,6 +81,7 @@
   background: var(--primary-light);
 }
 
+/* Base HTML & Body */
 html {
   scroll-behavior: smooth;
   font-size: 16px;
@@ -81,7 +99,11 @@ body {
   position: relative;
 }
 
-/* Modern animated background */
+/* ========================================
+   BACKGROUND ANIMATIONS
+   ======================================== */
+
+/* Animated Background */
 body::before {
   content: "";
   position: fixed;
@@ -91,7 +113,7 @@ body::before {
   height: 100%;
   background: radial-gradient(
       circle at 20% 80%,
-      rgba(0, 102, 255, 0.1) 0%,
+      rgba(220, 38, 38, 0.1) 0%,
       transparent 50%
     ),
     radial-gradient(
@@ -124,7 +146,41 @@ body::before {
   }
 }
 
-/* Modern Navbar styling */
+/* ========================================
+   SECTION ANIMATIONS
+   ======================================== */
+
+/* Basic Section Animation States */
+.section-animate {
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: blur(5px);
+}
+
+.section-animate.section-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.section-animate.section-center {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  box-shadow: 0 0 30px rgba(220, 38, 38, 0.1);
+}
+
+.section-animate.section-hidden {
+  opacity: 0.3;
+  transform: translateY(20px) scale(0.98);
+  filter: blur(2px);
+}
+
+/* ========================================
+   NAVBAR STYLES
+   ======================================== */
+
 .navbar {
   background: rgba(0, 0, 0, 0.95) !important;
   backdrop-filter: blur(var(--blur-amount));
@@ -143,6 +199,7 @@ body::before {
   box-shadow: 0 4px 20px var(--shadow-medium);
 }
 
+/* Navbar Brand */
 .navbar-brand {
   color: var(--text-primary) !important;
   font-weight: 700;
@@ -154,6 +211,7 @@ body::before {
   transform: scale(1.05);
 }
 
+/* Navigation Links */
 .navbar-nav .nav-link {
   color: var(--text-primary) !important;
   font-size: 1rem;
@@ -193,6 +251,7 @@ body::before {
   background: var(--gradient-primary);
 }
 
+/* Mobile Toggle */
 .navbar-toggler {
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius-sm);
@@ -209,7 +268,10 @@ body::before {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* Modern Dropdown menu styling */
+/* ========================================
+   DROPDOWN MENUS
+   ======================================== */
+
 .dropdown-menu {
   background: rgba(30, 30, 30, 0.95) !important;
   backdrop-filter: blur(var(--blur-amount));
@@ -218,9 +280,23 @@ body::before {
   border-radius: var(--border-radius-md);
   box-shadow: 0 10px 40px var(--shadow-heavy);
   padding: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem; /* Reduced gap */
   min-width: 200px;
   animation: dropdownSlide 0.3s ease-out;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-out;
+  pointer-events: none;
+}
+
+/* Enhanced dropdown visibility */
+.dropdown-menu.show,
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 @keyframes dropdownSlide {
@@ -275,9 +351,38 @@ body::before {
   margin: 0.5rem 0;
 }
 
-/* Enhanced dropdown hover behavior */
+/* Enhanced Dropdown Behavior with better hover area */
+.navbar-nav .dropdown {
+  position: relative;
+}
+
+/* Create invisible bridge between dropdown toggle and menu */
+.navbar-nav .dropdown::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 0.25rem; /* Bridge height to cover the gap */
+  background: transparent;
+  z-index: 1000;
+}
+
+/* Show dropdown on hover with delay */
 .navbar-nav .dropdown:hover .dropdown-menu {
   display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Keep dropdown visible when hovering over the menu itself */
+.dropdown-menu:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .dropdown-toggle::after {
@@ -289,7 +394,17 @@ body::before {
   transform: rotate(180deg);
 }
 
-/* Modern Hero Section with Slideshow */
+/* Enhanced dropdown positioning to prevent gaps */
+.navbar-nav .dropdown-menu {
+  top: calc(100% - 0.25rem); /* Overlap slightly to prevent gaps */
+  left: 0;
+  right: auto;
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
 .hero-section {
   position: relative;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
@@ -299,7 +414,7 @@ body::before {
   z-index: 5;
 }
 
-/* Hero Background Container */
+/* Hero Background & Slides */
 .hero-background {
   position: absolute;
   top: 0;
@@ -309,7 +424,6 @@ body::before {
   z-index: 0;
 }
 
-/* Individual Hero Slides */
 .hero-slide {
   position: absolute;
   top: 0;
@@ -329,7 +443,7 @@ body::before {
   z-index: 2;
 }
 
-/* Hero Overlay - Enhanced for better text visibility */
+/* Hero Overlays */
 .hero-section::before {
   content: "";
   position: absolute;
@@ -340,13 +454,12 @@ body::before {
   background: linear-gradient(
     135deg,
     rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 102, 255, 0.2) 50%,
+    rgba(220, 38, 38, 0.2) 50%,
     rgba(0, 0, 0, 0.8) 100%
   );
   z-index: 3;
 }
 
-/* Additional overlay for extra text protection */
 .hero-section::after {
   content: "";
   position: absolute;
@@ -396,9 +509,10 @@ body::before {
 
 .hero-section .btn {
   animation: heroButtonSlide 1s ease-out 0.4s both;
-  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Hero Animations */
 @keyframes heroTitleSlide {
   from {
     opacity: 0;
@@ -452,7 +566,7 @@ body::before {
   bottom: 0;
   background: linear-gradient(
     45deg,
-    rgba(0, 102, 255, 0.05) 0%,
+    rgba(220, 38, 38, 0.05) 0%,
     transparent 50%,
     rgba(0, 212, 170, 0.05) 100%
   );
@@ -552,7 +666,7 @@ body::before {
   bottom: 0;
   background: radial-gradient(
       circle at 10% 20%,
-      rgba(0, 102, 255, 0.05) 0%,
+      rgba(220, 38, 38, 0.05) 0%,
       transparent 50%
     ),
     radial-gradient(
@@ -659,33 +773,7 @@ body::before {
   flex-direction: column;
 }
 
-.product-card-horizontal::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 102, 255, 0.05) 0%,
-    transparent 50%,
-    rgba(0, 212, 170, 0.05) 100%
-  );
-  opacity: 0;
-  transition: opacity var(--transition-medium);
-  z-index: 1;
-}
-
-.product-card-horizontal:hover::before {
-  opacity: 1;
-}
-
-.product-card-horizontal:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 60px var(--shadow-heavy);
-  border-color: var(--primary-color);
-}
+/* Removed duplicate - now handled by shared styles above */
 
 .product-image-section {
   height: 200px;
@@ -761,7 +849,9 @@ body::before {
   }
 }
 
-.product-card::before {
+/* Shared Product Card Hover Effects */
+.product-card::before,
+.product-card-horizontal::before {
   content: "";
   position: absolute;
   top: 0;
@@ -770,7 +860,7 @@ body::before {
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(0, 102, 255, 0.05) 0%,
+    rgba(220, 38, 38, 0.05) 0%,
     transparent 50%,
     rgba(0, 212, 170, 0.05) 100%
   );
@@ -779,11 +869,13 @@ body::before {
   z-index: 1;
 }
 
-.product-card:hover::before {
+.product-card:hover::before,
+.product-card-horizontal:hover::before {
   opacity: 1;
 }
 
-.product-card:hover {
+.product-card:hover,
+.product-card-horizontal:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 20px 60px var(--shadow-heavy);
   border-color: var(--primary-color);
@@ -821,23 +913,23 @@ body::before {
 
 .feature-tag {
   display: inline-block;
-  background: rgba(0, 102, 255, 0.15);
+  background: rgba(220, 38, 38, 0.15);
   color: var(--primary-light);
   padding: 8px 16px;
   border-radius: var(--border-radius-xl);
   font-size: 0.85rem;
   font-weight: 500;
   margin: 4px;
-  border: 1px solid rgba(0, 102, 255, 0.3);
+  border: 1px solid rgba(220, 38, 38, 0.3);
   transition: all var(--transition-fast);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
 
 .feature-tag:hover {
-  background: rgba(0, 102, 255, 0.25);
+  background: rgba(220, 38, 38, 0.25);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
 }
 
 .product-features {
@@ -955,7 +1047,10 @@ body::before {
   }
 }
 
-/* Modern Typography */
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
 .display-5 {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -975,7 +1070,9 @@ body::before {
   color: var(--text-secondary);
 }
 
-/* Modern Button Styles */
+/* ========================================
+   BUTTONS
+   ======================================== */
 .btn {
   font-weight: 600;
   border-radius: var(--border-radius-lg);
@@ -991,7 +1088,7 @@ body::before {
 .btn-primary {
   background: var(--gradient-primary);
   color: var(--text-primary);
-  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
 }
 
 .btn-primary::before {
@@ -1016,7 +1113,7 @@ body::before {
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
   background: var(--gradient-primary);
   color: var(--text-primary);
 }
@@ -1034,7 +1131,7 @@ body::before {
   border-color: var(--primary-color);
   color: var(--text-primary);
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 102, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
 }
 
 .btn-outline-light {
@@ -1062,7 +1159,10 @@ body::before {
   font-size: 0.9rem;
 }
 
-/* Modern Form Styles */
+/* ========================================
+   FORMS
+   ======================================== */
+
 .form-control {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid var(--border-color);
@@ -1077,7 +1177,7 @@ body::before {
 .form-control:focus {
   background: rgba(255, 255, 255, 0.08);
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.2rem rgba(0, 102, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
   color: var(--text-primary);
 }
 
@@ -1091,7 +1191,9 @@ body::before {
   margin-bottom: 0.5rem;
 }
 
-/* Modern Section Backgrounds */
+/* ========================================
+   SECTION BACKGROUNDS
+   ======================================== */
 #about {
   background: var(--background-primary);
   position: relative;
@@ -1107,7 +1209,7 @@ body::before {
   bottom: 0;
   background: radial-gradient(
       circle at 30% 70%,
-      rgba(0, 102, 255, 0.03) 0%,
+      rgba(220, 38, 38, 0.03) 0%,
       transparent 50%
     ),
     radial-gradient(
@@ -1141,7 +1243,7 @@ body::before {
   bottom: 0;
   background: radial-gradient(
       circle at 20% 20%,
-      rgba(0, 102, 255, 0.08) 0%,
+      rgba(220, 38, 38, 0.08) 0%,
       transparent 50%
     ),
     radial-gradient(
@@ -1176,7 +1278,7 @@ body::before {
   height: 80px;
   background: var(--gradient-primary);
   border-radius: 50%;
-  box-shadow: 0 10px 30px rgba(0, 102, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
   animation: newsIconFloat 3s ease-in-out infinite;
 }
 
@@ -1208,10 +1310,10 @@ body::before {
   background: linear-gradient(
     135deg,
     #ffffff 0%,
-    #e3f2fd 25%,
-    #bbdefb 50%,
-    #90caf9 75%,
-    #64b5f6 100%
+    #ffebee 25%,
+    #ffcdd2 50%,
+    #ef5350 75%,
+    #dc2626 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1231,7 +1333,7 @@ body::before {
   height: 4px;
   background: var(--gradient-primary);
   border-radius: 2px;
-  box-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
 }
 
 .news-subtitle-wrapper {
@@ -1257,7 +1359,7 @@ body::before {
 .news-subtitle {
   font-size: 1.2rem;
   font-weight: 400;
-  color: #b3d9ff;
+  color: #ffcdd2;
   margin: 0;
   white-space: nowrap;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -1311,7 +1413,7 @@ body::before {
   bottom: 0;
   background: radial-gradient(
     circle at 20% 80%,
-    rgba(0, 102, 255, 0.05) 0%,
+    rgba(220, 38, 38, 0.05) 0%,
     transparent 50%
   );
   z-index: 1;
@@ -1345,8 +1447,8 @@ body::before {
 }
 
 .feature-card {
-  background: rgba(0, 102, 255, 0.15);
-  border: 1px solid rgba(0, 102, 255, 0.3);
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.3);
   border-radius: var(--border-radius-md);
   transition: all var(--transition-medium);
   backdrop-filter: blur(5px);
@@ -1354,9 +1456,9 @@ body::before {
 }
 
 .feature-card:hover {
-  background: rgba(0, 102, 255, 0.25);
+  background: rgba(220, 38, 38, 0.25);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.2);
 }
 
 .special-system-highlight {
@@ -1400,18 +1502,18 @@ body::before {
 
 .spec-tag-small {
   display: inline-block;
-  background: rgba(0, 102, 255, 0.2);
+  background: rgba(220, 38, 38, 0.2);
   color: var(--primary-light);
   padding: 4px 10px;
   border-radius: var(--border-radius-md);
   font-size: 0.75rem;
   margin: 2px;
-  border: 1px solid rgba(0, 102, 255, 0.4);
+  border: 1px solid rgba(220, 38, 38, 0.4);
   transition: all var(--transition-fast);
 }
 
 .spec-tag-small:hover {
-  background: rgba(0, 102, 255, 0.3);
+  background: rgba(220, 38, 38, 0.3);
   transform: translateY(-1px);
 }
 
@@ -1449,7 +1551,7 @@ footer::before {
   bottom: 0;
   background: radial-gradient(
     circle at 50% 0%,
-    rgba(0, 102, 255, 0.05) 0%,
+    rgba(220, 38, 38, 0.05) 0%,
     transparent 50%
   );
   z-index: 1;
@@ -1505,6 +1607,96 @@ footer .container {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Scroll-based section animations - Only center section visible */
+.section-animated {
+  opacity: 0;
+  transform: translateY(100px) scale(0.8);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: blur(15px);
+  pointer-events: none;
+}
+
+.section-animated.section-visible {
+  opacity: 0.4;
+  transform: translateY(30px) scale(0.95);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.section-animated.section-center {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+  box-shadow: 0 0 80px rgba(220, 38, 38, 0.2);
+  pointer-events: auto;
+  z-index: 10;
+  position: relative;
+}
+
+.section-animated.section-hidden {
+  opacity: 0;
+  transform: translateY(100px) scale(0.7);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* Enhanced section transitions for different sections */
+/* Hero section - always visible, no animations */
+.hero-section.section-animated {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 5;
+}
+
+.hero-section.section-animated.section-visible,
+.hero-section.section-animated.section-center,
+.hero-section.section-animated.section-hidden {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
+  pointer-events: auto !important;
+}
+
+#about.section-animated {
+  transform: translateX(-50px) scale(0.95);
+}
+
+#about.section-animated.section-visible,
+#about.section-animated.section-center {
+  transform: translateX(0) scale(1);
+}
+
+#news.section-animated {
+  transform: translateY(50px) rotateX(10deg);
+  transform-origin: center bottom;
+}
+
+#news.section-animated.section-visible,
+#news.section-animated.section-center {
+  transform: translateY(0) rotateX(0deg);
+}
+
+#products.section-animated {
+  transform: translateX(50px) scale(0.95);
+}
+
+#products.section-animated.section-visible,
+#products.section-animated.section-center {
+  transform: translateX(0) scale(1);
+}
+
+#contact.section-animated {
+  transform: translateY(50px) scale(0.9);
+}
+
+#contact.section-animated.section-visible,
+#contact.section-animated.section-center {
+  transform: translateY(0) scale(1);
 }
 
 /* Responsive Design Enhancements */

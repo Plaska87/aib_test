@@ -35,10 +35,60 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Strona Główna</a>
+              <a class="nav-link" href="#" data-section="home">Strona Główna</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#about">O Firmie</a>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#about"
+                id="aboutDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-section="about"
+              >
+                O Firmie
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="showAboutPage('o-nas', event)"
+                    >O Nas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="showAboutPage('misja', event)"
+                    >Misja AIB</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="showAboutPage('dzialalnosc', event)"
+                    >Przedmiot działalności</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="showAboutPage('rozwoj', event)"
+                    >Rozwój</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#about" data-section="about"
+                    >Wszystkie sekcje</a
+                  >
+                </li>
+              </ul>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -48,6 +98,7 @@
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                data-section="products"
               >
                 Oferta
               </a>
@@ -86,17 +137,24 @@
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="#products"
+                  <a
+                    class="dropdown-item"
+                    href="#products"
+                    data-section="products"
                     >Wszystkie produkty</a
                   >
                 </li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#news">Aktualności</a>
+              <a class="nav-link" href="#news" data-section="news"
+                >Aktualności</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact">Kontakt</a>
+              <a class="nav-link" href="#contact" data-section="contact"
+                >Kontakt</a
+              >
             </li>
           </ul>
         </div>
@@ -105,7 +163,7 @@
 
     <!-- Hero Section -->
     <section
-      class="hero-section text-white text-center d-flex align-items-center"
+      class="hero-section text-white text-center d-flex align-items-center section-animate"
     >
       <!-- Hero Background Images -->
       <div class="hero-background">
@@ -153,7 +211,10 @@
                   się na produkcji innowacyjnych produktów wykończeniowych oraz
                   materiałów izolacyjnych.
                 </p>
-                <a href="#" class="btn btn-outline-primary mt-3"
+                <a
+                  href="#"
+                  onclick="showAboutPage('o-nas', event)"
+                  class="btn btn-outline-primary mt-3"
                   >Czytaj więcej</a
                 >
               </div>
@@ -167,7 +228,10 @@
                   Dążymy do ciągłego rozwoju technologii i procesów, aby
                   sprostać rosnącym wymaganiom rynku.
                 </p>
-                <a href="#" class="btn btn-outline-primary mt-3"
+                <a
+                  href="#"
+                  onclick="showAboutPage('misja', event)"
+                  class="btn btn-outline-primary mt-3"
                   >Poznaj misję</a
                 >
               </div>
@@ -181,8 +245,11 @@
                   izolacyjnych. Nasze produkty znajdują zastosowanie w
                   budownictwie mieszkaniowym i przemysłowym.
                 </p>
-                <a href="#" class="btn btn-outline-primary mt-3"
-                  >Zobacz produkty</a
+                <a
+                  href="#"
+                  onclick="showAboutPage('dzialalnosc', event)"
+                  class="btn btn-outline-primary mt-3"
+                  >Zobacz działalność</a
                 >
               </div>
 
@@ -195,7 +262,10 @@
                   na rynek coraz bardziej zaawansowane rozwiązania
                   technologiczne.
                 </p>
-                <a href="#" class="btn btn-outline-primary mt-3"
+                <a
+                  href="#"
+                  onclick="showAboutPage('rozwoj', event)"
+                  class="btn btn-outline-primary mt-3"
                   >Historia rozwoju</a
                 >
               </div>
@@ -242,7 +312,7 @@
           <div class="col-lg-8 text-center">
             <div class="work-in-progress-card p-5 rounded">
               <div class="mb-4">
-                <i class="fas fa-tools fa-4x text-primary mb-3"></i>
+                <i class="fas fa-tools fa-4x text-danger mb-3"></i>
                 <h3 class="text-white mb-3">Sekcja w przygotowaniu</h3>
                 <p class="text-light mb-4">
                   Pracujemy nad nową sekcją aktualności, gdzie będziemy
@@ -251,7 +321,7 @@
                 </p>
                 <div class="progress mb-3" style="height: 8px">
                   <div
-                    class="progress-bar bg-primary"
+                    class="progress-bar bg-danger"
                     role="progressbar"
                     style="width: 75%"
                     aria-valuenow="75"
@@ -268,15 +338,15 @@
                   <div class="col-md-6">
                     <ul class="list-unstyled text-light">
                       <li class="mb-2">
-                        <i class="fas fa-check text-primary me-2"></i
-                        >Aktualności firmowe
+                        <i class="fas fa-check text-danger me-2"></i>Aktualności
+                        firmowe
                       </li>
                       <li class="mb-2">
-                        <i class="fas fa-check text-primary me-2"></i>Nowości
+                        <i class="fas fa-check text-danger me-2"></i>Nowości
                         produktowe
                       </li>
                       <li class="mb-2">
-                        <i class="fas fa-check text-primary me-2"></i>Wydarzenia
+                        <i class="fas fa-check text-danger me-2"></i>Wydarzenia
                         branżowe
                       </li>
                     </ul>
@@ -284,15 +354,15 @@
                   <div class="col-md-6">
                     <ul class="list-unstyled text-light">
                       <li class="mb-2">
-                        <i class="fas fa-check text-primary me-2"></i>Artykuły
+                        <i class="fas fa-check text-danger me-2"></i>Artykuły
                         techniczne
                       </li>
                       <li class="mb-2">
-                        <i class="fas fa-check text-primary me-2"></i>Galeria
+                        <i class="fas fa-check text-danger me-2"></i>Galeria
                         zdjęć
                       </li>
                       <li class="mb-2">
-                        <i class="fas fa-check text-primary me-2"></i>Newsletter
+                        <i class="fas fa-check text-danger me-2"></i>Newsletter
                       </li>
                     </ul>
                   </div>
