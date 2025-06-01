@@ -1461,6 +1461,24 @@ body::before {
   box-shadow: 0 8px 20px rgba(220, 38, 38, 0.2);
 }
 
+/* Enhanced styles for clickable feature cards */
+.feature-card[onclick] {
+  cursor: pointer;
+  transition: all var(--transition-medium);
+}
+
+.feature-card[onclick]:hover {
+  background: rgba(220, 38, 38, 0.35);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(220, 38, 38, 0.3);
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+.feature-card[onclick]:active {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(220, 38, 38, 0.25);
+}
+
 .special-system-highlight {
   background: var(--gradient-secondary);
   border: 1px solid var(--secondary-color);
@@ -1697,6 +1715,54 @@ footer .container {
 #contact.section-animated.section-visible,
 #contact.section-animated.section-center {
   transform: translateY(0) scale(1);
+}
+
+/* About subpages - completely disable scroll animations for full readability */
+.about-subpage.section-animated {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+  transition: none !important; /* Disable all transitions */
+}
+
+.about-subpage.section-animated.section-visible,
+.about-subpage.section-animated.section-center,
+.about-subpage.section-animated.section-hidden {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
+  pointer-events: auto !important;
+  box-shadow: none !important; /* Remove any glow effects */
+}
+
+/* Product subpages - invisible unless 25% or more is on screen */
+.product-subpage.section-animated {
+  opacity: 0;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+  pointer-events: none;
+  position: relative;
+  z-index: 10;
+  transition: opacity 0.3s ease, pointer-events 0s linear 0.3s;
+}
+
+.product-subpage.section-animated.section-center {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
+  pointer-events: auto !important;
+  transition: opacity 0.3s ease, pointer-events 0s linear 0s;
+}
+
+.product-subpage.section-animated.section-hidden {
+  opacity: 0 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease, pointer-events 0s linear 0.3s;
 }
 
 /* Responsive Design Enhancements */

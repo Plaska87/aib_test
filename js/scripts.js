@@ -179,6 +179,42 @@ function setupScrollAnimations() {
     });
 }
 
+// Helper function to preserve section animation classes
+function preserveSectionAnimationClasses(section) {
+  const animationClasses = [];
+  if (section.classList.contains("section-animated")) {
+    animationClasses.push("section-animated");
+  }
+  if (section.classList.contains("section-visible")) {
+    animationClasses.push("section-visible");
+  }
+  if (section.classList.contains("section-center")) {
+    animationClasses.push("section-center");
+  }
+  if (section.classList.contains("section-hidden")) {
+    animationClasses.push("section-hidden");
+  }
+  return animationClasses;
+}
+
+// Helper function to restore section animation classes
+function restoreSectionAnimationClasses(section, animationClasses) {
+  // Restore the animation classes after content replacement
+  animationClasses.forEach((className) => {
+    section.classList.add(className);
+  });
+
+  // Ensure the section has the section-animated class for proper fade behavior
+  if (!section.classList.contains("section-animated")) {
+    section.classList.add("section-animated");
+  }
+
+  // Force update section states to ensure proper animation state
+  setTimeout(() => {
+    updateSectionStates();
+  }, 100);
+}
+
 // Section-based scroll animations
 function setupSectionAnimations() {
   const sections = document.querySelectorAll(
@@ -200,15 +236,26 @@ function setupSectionAnimations() {
         const sectionCenter = rect.top + rect.height / 2;
         const viewportCenter = viewportHeight / 2;
 
-        // Skip hero section - it should always be visible
-        if (section.classList.contains("hero-section")) {
+        // Skip hero section and about subpages - they should always be visible
+        if (
+          section.classList.contains("hero-section") ||
+          section.classList.contains("about-subpage")
+        ) {
           return;
         }
 
         // Calculate distance from viewport center
         const distanceFromCenter = Math.abs(sectionCenter - viewportCenter);
-        const centerThreshold = viewportHeight * 0.25; // 25% of viewport height for better coverage
-        const visibleThreshold = viewportHeight * 0.4; // 40% for visible state
+
+        // Use different thresholds for about subpages (faster fade-in, later fade-out)
+        let centerThreshold, visibleThreshold;
+        if (section.classList.contains("about-subpage")) {
+          centerThreshold = viewportHeight * 1.2; // Much larger center area (120% vs 25%) - allows content to stay visible longer
+          visibleThreshold = viewportHeight * 1.5; // Much larger visible area (150% vs 40%) - fades in much earlier
+        } else {
+          centerThreshold = viewportHeight * 0.25; // 25% of viewport height for better coverage
+          visibleThreshold = viewportHeight * 0.4; // 40% for visible state
+        }
 
         // Remove all animation classes first
         section.classList.remove(
@@ -260,18 +307,54 @@ function updateSectionStates() {
   const sections = document.querySelectorAll(".section-animated");
   const viewportHeight = window.innerHeight;
   const viewportCenter = viewportHeight / 2;
-  const centerThreshold = viewportHeight * 0.25; // 25% of viewport height for better coverage
-  const visibleThreshold = viewportHeight * 0.4; // 40% for visible state
 
   sections.forEach((section) => {
-    // Skip hero section - it should always be visible
-    if (section.classList.contains("hero-section")) {
+    // Skip hero section and about subpages - they should always be visible
+    if (
+      section.classList.contains("hero-section") ||
+      section.classList.contains("about-subpage")
+    ) {
       return;
     }
 
     const rect = section.getBoundingClientRect();
+
+    // Special handling for product subpages - invisible unless 25% or more is on screen
+    if (section.classList.contains("product-subpage")) {
+      const sectionHeight = rect.height;
+      const visibleHeight =
+        Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+      const visibilityPercentage = visibleHeight / sectionHeight;
+
+      // Remove all animation classes first
+      section.classList.remove(
+        "section-visible",
+        "section-center",
+        "section-hidden"
+      );
+
+      if (visibilityPercentage >= 0.25) {
+        // 25% or more is visible - show the section
+        section.classList.add("section-center");
+      } else {
+        // Less than 25% visible - hide the section
+        section.classList.add("section-hidden");
+      }
+      return;
+    }
+
     const sectionCenter = rect.top + rect.height / 2;
     const distanceFromCenter = Math.abs(sectionCenter - viewportCenter);
+
+    // Use different thresholds for about subpages (faster fade-in, later fade-out)
+    let centerThreshold, visibleThreshold;
+    if (section.classList.contains("about-subpage")) {
+      centerThreshold = viewportHeight * 1.2; // Much larger center area (120% vs 25%) - allows content to stay visible longer
+      visibleThreshold = viewportHeight * 1.5; // Much larger visible area (150% vs 40%) - fades in much earlier
+    } else {
+      centerThreshold = viewportHeight * 0.25; // 25% of viewport height for better coverage
+      visibleThreshold = viewportHeight * 0.4; // 40% for visible state
+    }
 
     // Remove all animation classes first
     section.classList.remove(
@@ -532,6 +615,9 @@ async function showProductPage(productType, event) {
       `;
     }
 
+    // Add product subpage marker for different animation behavior
+    productsSection.classList.add("product-subpage", "section-animated");
+
     // Scroll to the products section using the enhanced smooth scroll function
     smoothScrollTo(productsSection);
   }
@@ -560,9 +646,16 @@ function restoreProducts() {
 
   if (productsSection && originalProductsContent) {
     productsSection.innerHTML = originalProductsContent;
+
+    // Remove product subpage marker and restore animation classes
+    productsSection.classList.remove("product-subpage");
+    productsSection.classList.add("section-animated");
+
     // Re-initialize product scrolling after restoration
     setTimeout(() => {
       initializeProductScrolling();
+      // Update section states to restore proper animation behavior
+      updateSectionStates();
     }, 100);
   }
 }
@@ -614,6 +707,9 @@ async function showAboutPage(aboutType, event) {
       `;
     }
 
+    // Keep animation classes but add subpage marker for different animation behavior
+    aboutSection.classList.add("about-subpage", "section-animated");
+
     // Scroll to the about section using the enhanced smooth scroll function
     smoothScrollTo(aboutSection);
   }
@@ -625,13 +721,21 @@ function restoreAbout() {
 
   if (aboutSection && originalAboutContent) {
     aboutSection.innerHTML = originalAboutContent;
-    // Re-initialize about carousel after restoration
+
+    // Remove subpage marker and restore animation classes
+    aboutSection.classList.remove("about-subpage");
+    aboutSection.classList.add("section-animated");
+
+    // Force update section states to ensure proper animation state
     setTimeout(() => {
       // Re-initialize about slides
       const slides = document.querySelectorAll(".about-slide");
       if (slides.length > 0 && !document.querySelector(".about-slide.active")) {
         slides[0].classList.add("active");
       }
+
+      // Update section states to restore proper animation behavior
+      updateSectionStates();
     }, 100);
   }
 }
